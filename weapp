@@ -1,0 +1,75 @@
+#!/bin/sh
+#chkconfig: 2345 80 90
+#description:auto_run
+
+# TODO: change `WEAPP_USER` to your name
+# example: WEAPP_USER="liamhuang"
+
+# privileged user
+WEAPP_USER="root"
+DIR_SUFFIX=""
+su root
+
+# READ ONLY, don't change it!!
+USER_00="root"
+WEAPP_ROOT_DIR="/data/release/node-weapp-demo"
+
+# weapp入口文件
+WEAPP_ENTRY="$WEAPP_ROOT_DIR/app.js"
+
+# weapp日志存储目录
+WEAPP_LOG_DIR="/data/release/weapp_logs"
+
+# weapp日志文件
+WEAPP_LOG_FILE="$WEAPP_LOG_DIR/weapp.log"
+
+# 确保已创建weapp日志文件
+touch $WEAPP_LOG_FILE
+
+# ============ 重启前等待 BEGIN
+# notes: deploy file `START_LATENCY` to backup node-server machine only
+START_LATENCY_FILE="$WEAPP_ROOT_DIR/bin/START_LATENCY"
+
+if [[ -s $START_LATENCY_FILE ]]; then
+    latency=`cat $START_LATENCY_FILE | head -n 1`
+
+    # does `latency` between 0 ~ 59?
+    if ! [[ "$latency" =~ ^[0-5][0-9]?$ ]]; then
+        latency=0
+    fi
+
+else
+    # file `START_LATENCY` does not exits, `latency` default to `0`
+    latency=0
+fi
+
+sleep $latency;
+# ============ 重启前等待 END
+
+# 获取weapp进程pid
+WEAPP_PIDS=`ps -ef | grep "$WEAPP_ENTRY" | grep -v "grep" | sort -k3 -nr | awk '{print $2}'`
+
+# 杀死所有相关进程
+for PID in $WEAPP_PIDS; do
+    kill -9 $PID
+done
+
+sleep 1
+
+# 启动(重启)weapp服务前备份日志, 同时文件名直接体现服务启动时间
+TM=`date "+%Y-%m-%d_%H_%M_%S"`
+mv $WEAPP_LOG_FILE "$WEAPP_LOG_DIR/weapp_start_$TM.log"
+
+# 清空weapp日志文件
+> $WEAPP_LOG_FILE
+
+sleep 1
+
+# 启动weapp服务
+node $WEAPP_ENTRY > $WEAPP_LOG_FILE 2>&1 &
+
+
+#写入成功的结果
+UUID=$1
+RESULT_FILE="/data/release/node-weapp-demo/sh/ret/restart_$UUID.txt"
+echo 1 > $RESULT_FILE;
